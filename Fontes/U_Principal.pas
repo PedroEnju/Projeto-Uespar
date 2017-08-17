@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls, Vcl.ExtCtrls;
 
 type
   TF_Principal = class(TForm)
@@ -14,6 +14,8 @@ type
     Cidade1: TMenuItem;
     Cliente1: TMenuItem;
     Label1: TLabel;
+    Button1: TButton;
+    Panel1: TPanel;
     procedure Estado1Click(Sender: TObject);
     procedure Cidade1Click(Sender: TObject);
     procedure Cliente1Click(Sender: TObject);
