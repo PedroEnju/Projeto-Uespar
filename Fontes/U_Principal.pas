@@ -13,9 +13,6 @@ type
     Estado1: TMenuItem;
     Cidade1: TMenuItem;
     Cliente1: TMenuItem;
-    Label1: TLabel;
-    Button1: TButton;
-    Panel1: TPanel;
     procedure Estado1Click(Sender: TObject);
     procedure Cidade1Click(Sender: TObject);
     procedure Cliente1Click(Sender: TObject);

@@ -4,7 +4,7 @@ object F_Principal: TF_Principal
   Caption = 
     '                                                                ' +
     '                                        Menu Principal'
-  ClientHeight = 481
+  ClientHeight = 461
   ClientWidth = 764
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,29 +16,6 @@ object F_Principal: TF_Principal
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Label1: TLabel
-    Left = 456
-    Top = 288
-    Width = 30
-    Height = 13
-    Caption = 'TESTE'
-  end
-  object Button1: TButton
-    Left = 368
-    Top = 224
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 0
-  end
-  object Panel1: TPanel
-    Left = 177
-    Top = 248
-    Width = 185
-    Height = 41
-    Caption = 'Panel1'
-    TabOrder = 1
-  end
   object MainMenu1: TMainMenu
     Left = 312
     Top = 136
