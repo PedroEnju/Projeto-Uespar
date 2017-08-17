@@ -32,8 +32,8 @@ object F_Principal: TF_Principal
     TabOrder = 0
   end
   object Panel1: TPanel
-    Left = 301
-    Top = 368
+    Left = 177
+    Top = 248
     Width = 185
     Height = 41
     Caption = 'Panel1'
