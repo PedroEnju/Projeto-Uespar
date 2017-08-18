@@ -1,7 +1,9 @@
-inherited F_Cidade: TF_Cidade
+inherited F_Estado: TF_Estado
   Caption = 
     '                                                                ' +
-    '                                                 Cidade'
+    '                                     Cadastro de Estado'
+  ExplicitWidth = 784
+  ExplicitHeight = 586
   PixelsPerInch = 96
   TextHeight = 13
   inherited Panel1: TPanel

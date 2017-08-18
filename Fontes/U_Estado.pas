@@ -8,7 +8,7 @@ uses
   Vcl.ExtCtrls;
 
 type
-  TF_Cidade = class(TF_Modelo)
+  TF_Estado = class(TF_Modelo)
   private
     { Private declarations }
   public
@@ -16,7 +16,7 @@ type
   end;
 
 var
-  F_Cidade: TF_Cidade;
+  F_Estado: TF_Estado;
 
 implementation
 
