@@ -4,8 +4,8 @@ object F_Principal: TF_Principal
   Caption = 
     '                                                                ' +
     '                                        Menu Principal'
-  ClientHeight = 442
-  ClientWidth = 764
+  ClientHeight = 422
+  ClientWidth = 711
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,13 +15,15 @@ object F_Principal: TF_Principal
   Menu = MM_Menu
   OldCreateOrder = False
   Position = poDesktopCenter
+  WindowState = wsMaximized
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
-    Left = -584
-    Top = -272
-    Width = 1372
-    Height = 802
+    Left = 0
+    Top = 0
+    Width = 711
+    Height = 403
+    Align = alClient
     Picture.Data = {
       0A544A504547496D616765F30F0100FFD8FFE000104A46494600010100000100
       010000FFE20C584943435F50524F46494C4500010100000C484C696E6F021000
@@ -2200,11 +2202,15 @@ object F_Principal: TF_Principal
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000007F
       FFD9}
+    Proportional = True
+    ExplicitLeft = -8
+    ExplicitTop = -6
+    ExplicitWidth = 764
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 423
-    Width = 764
+    Top = 403
+    Width = 711
     Height = 19
     Panels = <
       item
@@ -2214,9 +2220,7 @@ object F_Principal: TF_Principal
         Text = 'Desenvolvido by: Pedro Enju'
         Width = 50
       end>
-    ExplicitLeft = 456
-    ExplicitTop = 464
-    ExplicitWidth = 0
+    ExplicitWidth = 764
   end
   object MM_Menu: TMainMenu
     Left = 48
