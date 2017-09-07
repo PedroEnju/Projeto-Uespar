@@ -9,7 +9,8 @@ uses
   U_Principal in 'U_Principal.pas' {F_Principal},
   U_Produto in 'U_Produto.pas' {F_Produto},
   Vcl.Themes,
-  Vcl.Styles;
+  Vcl.Styles,
+  U_DM in 'U_DM.pas' {DM: TDataModule};
 
 {$R *.res}
 
@@ -17,6 +18,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   TStyleManager.TrySetStyle('Cobalt XEMedia');
+  Application.CreateForm(TDM, DM);
   Application.CreateForm(TF_Principal, F_Principal);
   Application.CreateForm(TF_Modelo, F_Modelo);
   Application.CreateForm(TF_Cidade, F_Cidade);
