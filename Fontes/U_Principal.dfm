@@ -2221,6 +2221,7 @@ object F_Principal: TF_Principal
         Text = 'Desenvolvido by: Pedro Enju'
         Width = 50
       end>
+    ExplicitTop = 405
   end
   object MM_Menu: TMainMenu
     Left = 48
