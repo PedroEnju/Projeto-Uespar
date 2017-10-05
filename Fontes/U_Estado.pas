@@ -22,17 +22,18 @@ type
     Label4: TLabel;
     DBG_Consulta: TDBGrid;
     Edt_Pesquisar: TEdit;
+    DS: TDataSource;
     Q_Estado: TFDQuery;
     Q_EstadoID_ESTADO: TIntegerField;
     Q_EstadoNOME_ESTADO: TStringField;
     Q_EstadoSIGLA_ESTADO: TStringField;
-    DS: TDataSource;
     procedure Spb_NovoClick(Sender: TObject);
     procedure Spb_SalvarClick(Sender: TObject);
     procedure Spb_CancelarClick(Sender: TObject);
     procedure Spb_EditarClick(Sender: TObject);
     procedure Spb_ExcluirClick(Sender: TObject);
     procedure Edt_PesquisarChange(Sender: TObject);
+    procedure DBG_ConsultaDblClick(Sender: TObject);
   private
     procedure LimpaCampos;
     procedure HabilitaCampos;
@@ -88,11 +89,21 @@ begin
   Edt_Sigla.Enabled := False;
 end;
 
+procedure TF_Estado.DBG_ConsultaDblClick(Sender: TObject);
+begin
+  inherited;
+  Edt_IDEstado.Text := Q_EstadoID_ESTADO.AsString;
+  Edt_NomeEstado.Text := Q_EstadoNOME_ESTADO.AsString;
+  Edt_Sigla.Text := Q_EstadoSIGLA_ESTADO.AsString;
+  PC_Principal.TabIndex := 0;
+  Spb_Excluir.Enabled := True;
+end;
+
 procedure TF_Estado.Edt_PesquisarChange(Sender: TObject);
 begin
   inherited;
   Q_Estado.Close;
-  Q_Estado.ParamByName('NomeEstado').asString := Edt_Pesquisar.Text + '%';
+  Q_Estado.ParamByName('NomeEstado').AsString := Edt_Pesquisar.Text + '%';
   Q_Estado.Open();
 end;
 
@@ -104,10 +115,18 @@ begin
 end;
 
 procedure TF_Estado.Spb_NovoClick(Sender: TObject);
+var
+  Max: integer;
 begin
   inherited;
+  DM.FDQ_Estado.Close;
+  DM.FDQ_Estado.Open();
+  Max := DM.FDQ_EstadoMax.AsInteger + 1;
+  PC_Principal.TabIndex := 0;
   HabilitaCampos;
-  Edt_IDEstado.SetFocus;
+  Edt_IDEstado.Enabled := False;
+  Edt_IDEstado.Text := IntToStr(Max);
+  Edt_NomeEstado.SetFocus;
   Crud := 'Inserir';
 end;
 

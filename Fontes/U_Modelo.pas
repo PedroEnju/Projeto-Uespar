@@ -17,7 +17,7 @@ type
     Spb_Cancelar: TSpeedButton;
     Spb_Excluir: TSpeedButton;
     Spb_Editar: TSpeedButton;
-    PageControl1: TPageControl;
+    PC_Principal: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     GroupBox1: TGroupBox;
@@ -54,7 +54,7 @@ procedure TF_Modelo.Spb_EditarClick(Sender: TObject);
 begin
   Spb_Novo.Enabled := False;
   Spb_Salvar.Enabled := True;
-  Spb_Cancelar.Enabled := False;
+  Spb_Cancelar.Enabled := True;
   Spb_Excluir.Enabled := False;
   Spb_Editar.Enabled := False;
   StatusBar1.Panels[0].Text := 'Editando Registro Atual';

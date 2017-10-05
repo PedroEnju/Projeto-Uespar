@@ -5,7 +5,7 @@ object F_Modelo: TF_Modelo
     '                                                                ' +
     '                                                 Modelo'
   ClientHeight = 547
-  ClientWidth = 768
+  ClientWidth = 772
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -45,10 +45,11 @@ object F_Modelo: TF_Modelo
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 768
+    Width = 772
     Height = 41
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 768
     object Spb_Novo: TSpeedButton
       Left = 8
       Top = 8
@@ -150,6 +151,7 @@ object F_Modelo: TF_Modelo
       Width = 23
       Height = 22
       Hint = 'Editar'
+      Enabled = False
       Flat = True
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -171,7 +173,7 @@ object F_Modelo: TF_Modelo
   object StatusBar1: TStatusBar
     Left = 0
     Top = 528
-    Width = 768
+    Width = 772
     Height = 19
     Panels = <
       item
@@ -182,21 +184,25 @@ object F_Modelo: TF_Modelo
         Text = 'Projeto Uespar 1.0'
         Width = 50
       end>
+    ExplicitWidth = 768
   end
-  object PageControl1: TPageControl
+  object PC_Principal: TPageControl
     Left = 0
     Top = 41
-    Width = 768
+    Width = 772
     Height = 487
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alClient
     TabOrder = 2
+    ExplicitTop = 36
+    ExplicitWidth = 768
     object TabSheet1: TTabSheet
       Caption = 'Cadastro'
     end
     object TabSheet2: TTabSheet
       Caption = 'Consulta'
       ImageIndex = 1
+      ExplicitWidth = 760
       object GroupBox1: TGroupBox
         Left = 3
         Top = 3
