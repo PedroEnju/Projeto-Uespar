@@ -101,18 +101,16 @@ begin
   Q_Estado.Close;
   Q_Estado.Open();
   Q_Estado.First;
-  CB_IDEstado.Text := IntToStr((Q_EstadoID_ESTADO.AsInteger)) + '   ' +
-    (Q_EstadoNOME_ESTADO.AsString);
+  CB_IDEstado.Text := Q_EstadoNOME_ESTADO.AsString;
   while X < Y do
   begin
-    CB_IDEstado.Items.Add(IntToStr((Q_EstadoID_ESTADO.AsInteger)) + '   ' +
-      Q_EstadoNOME_ESTADO.AsString);
+    CB_IDEstado.Items.Add(Q_EstadoNOME_ESTADO.AsString);
     Q_Estado.Next;
     X := X + 1;
   end;
   DM.FDQ_Cidade.Close;
   DM.FDQ_Cidade.Open();
-  Max := DM.FDQ_CidadeMAX.AsInteger;
+  Max := DM.FDQ_CidadeMAX.AsInteger + 1;
   Edt_IDCidade.Enabled := False;
   Edt_IDCidade.Text := IntToStr(Max);
   Edt_NomeCidade.SetFocus;
@@ -121,18 +119,28 @@ end;
 procedure TF_Cidade.Spb_SalvarClick(Sender: TObject);
 var
   SQL: string;
-  Copia: string;
-  Convert: real;
+  X, Y: string;
+  Num: integer;
 begin
   inherited;
 
   if Crud = 'Inserir' then
   begin
-    Copia := Copy(CB_IDEstado.Text, 1, 3);
-    Convert := StrToFloat(Copia);
+    Y := CB_IDEstado.Text;
+    if X <> Y then
+    begin
+      Q_Estado.Close;
+      Q_Estado.Open();
+      Q_Estado.First;
+      repeat
+        X := Q_EstadoNOME_ESTADO.AsString;
+        Num := Q_EstadoID_ESTADO.AsInteger;
+        Q_Estado.Next;
+      until X = Y;
+    end;
     SQL := 'insert into Cidade values(' + Edt_IDCidade.Text + ',' + //
       QuotedStr(Edt_NomeCidade.Text) + ',' + QuotedStr(Edt_CEP.Text) + ',' +
-      FloatToStr(Convert) + ');';
+      IntToStr(Num) + ');';
   end
   else
   begin
@@ -181,6 +189,7 @@ begin
   Edt_NomeCidade.Text := EmptyStr;
   Edt_CEP.Text := EmptyStr;
   CB_IDEstado.Clear;
+  CB_IDEstado.Items.Clear;
 end;
 
 procedure TF_Cidade.DesativaCampos;

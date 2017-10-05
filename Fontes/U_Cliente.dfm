@@ -15,18 +15,21 @@ inherited F_Cliente: TF_Cliente
   inherited StatusBar1: TStatusBar
     Top = 399
     Width = 770
-    ExplicitTop = 372
+    ExplicitTop = 399
     ExplicitWidth = 770
   end
   inherited PC_Principal: TPageControl
     Width = 770
     Height = 358
+    ActivePage = TabSheet1
     ExplicitTop = 41
     ExplicitWidth = 770
-    ExplicitHeight = 331
+    ExplicitHeight = 358
     inherited TabSheet1: TTabSheet
       ExplicitLeft = 4
       ExplicitTop = 24
+      ExplicitWidth = 762
+      ExplicitHeight = 330
       object Label1: TLabel
         Left = 24
         Top = 20
@@ -90,6 +93,19 @@ inherited F_Cliente: TF_Cliente
         Height = 13
         Caption = 'Cidade.:'
       end
+      object L_Debug: TLabel
+        Left = 336
+        Top = 230
+        Width = 46
+        Height = 19
+        Caption = 'Debug'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -16
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
       object Edt_IDCliente: TEdit
         Left = 24
         Top = 32
@@ -144,13 +160,18 @@ inherited F_Cliente: TF_Cliente
         Width = 121
         Height = 21
         Enabled = False
+        MaxLength = 10
         TabOrder = 6
+        Text = 'aaaa-mm-dd'
+        OnChange = Edt_DataNascChange
+        OnClick = Edt_DataNascClick
       end
       object Edt_Status: TEdit
         Left = 144
         Top = 32
         Width = 39
         Height = 21
+        CharCase = ecUpperCase
         Enabled = False
         TabOrder = 7
       end
@@ -167,7 +188,7 @@ inherited F_Cliente: TF_Cliente
       ExplicitLeft = 4
       ExplicitTop = 24
       ExplicitWidth = 762
-      ExplicitHeight = 303
+      ExplicitHeight = 330
       inherited GroupBox1: TGroupBox
         object Edt_Consulta: TEdit
           Left = 23
@@ -253,7 +274,7 @@ inherited F_Cliente: TF_Cliente
     Connection = DM.FDConnection1
     SQL.Strings = (
       'select Nome_Cidade,ID_Cidade from Cidade order by Nome_Cidade;')
-    Left = 724
+    Left = 708
     Top = 9
     object Q_CidadeNOME_CIDADE: TStringField
       FieldName = 'NOME_CIDADE'
@@ -276,7 +297,9 @@ inherited F_Cliente: TF_Cliente
   object Q_Cliente: TFDQuery
     Connection = DM.FDConnection1
     SQL.Strings = (
-      'select * from Cliente where NomeCliente like :NomeCliente;')
+      
+        'select * from Cliente where NomeCliente like :NomeCliente order ' +
+        'by ID_CLIENTE;')
     Left = 616
     Top = 8
     ParamData = <

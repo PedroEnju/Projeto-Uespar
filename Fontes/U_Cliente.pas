@@ -47,6 +47,7 @@ type
     Q_ClienteDTNASCIMENTO: TDateField;
     Q_ClienteSTATUS: TStringField;
     Q_ClienteID_CIDADE: TIntegerField;
+    L_Debug: TLabel;
     procedure Spb_NovoClick(Sender: TObject);
     procedure Spb_SalvarClick(Sender: TObject);
     procedure Edt_ConsultaChange(Sender: TObject);
@@ -54,6 +55,8 @@ type
     procedure Spb_EditarClick(Sender: TObject);
     procedure Spb_CancelarClick(Sender: TObject);
     procedure Spb_ExcluirClick(Sender: TObject);
+    procedure Edt_DataNascChange(Sender: TObject);
+    procedure Edt_DataNascClick(Sender: TObject);
   private
     procedure LiberaCampos;
     procedure DesativaCampos;
@@ -94,41 +97,59 @@ end;
 
 procedure TF_Cliente.Spb_NovoClick(Sender: TObject);
 var
-  X, Y, Max: integer;
+  X1, Y1, Max: integer;
+  SQL: string;
 begin
   inherited;
   Crud := 'Inserir';
   LiberaCampos;
   PC_Principal.TabIndex := 0;
 
-  X := 0;
+  X1 := 0;
   Dm.FDQ_Cidade.Close;
   Dm.FDQ_Cidade.Open();
-  Y := Dm.FDQ_CidadeMAX.AsInteger;
+  Y1 := Dm.FDQ_CidadeMAX.AsInteger;
   Q_Cidade.Close;
   Q_Cidade.Open();
   Q_Cidade.First;
-  CB_IDCidade.Text := IntToStr((Q_CidadeID_CIDADE.AsInteger)) + '   ' +
-    (Q_CidadeNOME_CIDADE.AsString);
-  while X < Y do
+  CB_IDCidade.Text := Q_CidadeNOME_CIDADE.AsString;
+  while X1 < Y1 do
   begin
-    CB_IDCidade.Items.Add(IntToStr((Q_CidadeID_CIDADE.AsInteger)) + '   ' +
-      Q_CidadeNOME_CIDADE.AsString);
+    CB_IDCidade.Items.Add(Q_CidadeNOME_CIDADE.AsString);
     Q_Cidade.Next;
-    X := X + 1;
+    X1 := X1 + 1;
   end;
+  Dm.FDQ_Cliente.Close;
+  Dm.FDQ_Cliente.Open();
+  Max := Dm.FDQ_ClienteMAX.AsInteger + 1;
+  Edt_IDCliente.Enabled := False;
+  Edt_IDCliente.Text := IntToStr(Max);
+  Edt_NomeCliente.SetFocus;
+  Edt_DataNasc.Text := 'aaaa-mm-dd';
 end;
 
 procedure TF_Cliente.Spb_SalvarClick(Sender: TObject);
 var
   SQL: string;
-  Convert: real;
+  X1, Y1: string;
+  Num: integer;
 begin
   inherited;
 
   if Crud = 'Inserir' then
   begin
-    Convert := StrToFloat(CB_IDCidade.Text);
+    Y1 := CB_IDCidade.Text;
+    if X1 <> Y1 then
+    begin
+      Q_Cidade.Close;
+      Q_Cidade.Open();
+      Q_Cidade.First;
+      repeat
+        X1 := Q_CidadeNOME_CIDADE.AsString;
+        Num := Q_CidadeID_CIDADE.AsInteger;
+        Q_Cidade.Next;
+      until X1 = Y1;
+    end;
     SQL := 'insert into Cliente(id_cliente,nomecliente,cpf,rg,email,telefone,dtnascimento,status,id_cidade) values('
       + //
       Edt_IDCliente.Text + ',' + //
@@ -139,18 +160,43 @@ begin
       QuotedStr(Edt_Telefone.Text) + ',' + //
       QuotedStr(Edt_DataNasc.Text) + ',' + //
       QuotedStr(Edt_Status.Text) + ',' + //
-      FloatToStr(Convert) + ');';
+      IntToStr(Num) + ');';
   end
   else
   begin
-
+    Y1 := CB_IDCidade.Text;
+    if X1 <> Y1 then
+    begin
+      Q_Cidade.Close;
+      Q_Cidade.Open();
+      Q_Cidade.First;
+      repeat
+        X1 := Q_CidadeNOME_CIDADE.AsString;
+        Num := Q_CidadeID_CIDADE.AsInteger;
+        Q_Cidade.Next;
+      until X1 = Y1;
+    end;
+    SQL := 'update Cliente set NomeCliente =' + QuotedStr(Edt_NomeCliente.Text)
+      + ', CPF =' + QuotedStr(Edt_CPF.Text) +
+    //
+      ', RG =' + QuotedStr(Edt_RG.Text) + //
+      ', Email =' + QuotedStr(Edt_Email.Text) + //
+      ', Telefone =' + QuotedStr(Edt_Telefone.Text) + //
+      ', DtNascimento =' + QuotedStr(Edt_DataNasc.Text) + //
+      ', Status =' + QuotedStr(Edt_Status.Text) + //
+      ', ID_CIDADE =' + IntToStr(Num) + //
+      'where ID_Cliente  =' + Edt_IDCliente.Text;
   end;
+  Dm.FDConnection1.ExecSQL(SQL);
+  Dm.FDConnection1.CommitRetaining;
   LimpaCampos;
+  DesativaCampos;
 end;
 
 procedure TF_Cliente.DBG_ConsultaDblClick(Sender: TObject);
 var
-  X, Y: integer;
+  X1, Y1: integer;
+  X2, Y2: string;
 begin
   inherited;
   Edt_IDCliente.Text := Q_ClienteID_CLIENTE.AsString;
@@ -159,26 +205,32 @@ begin
   Edt_RG.Text := Q_ClienteRG.AsString;
   Edt_Email.Text := Q_ClienteEMAIL.AsString;
   Edt_Telefone.Text := Q_ClienteTELEFONE.AsString;
-  Edt_DataNasc.Text := Q_ClienteDTNASCIMENTO.AsString;
   Edt_Status.Text := Q_ClienteSTATUS.AsString;
   PC_Principal.TabIndex := 0;
   Spb_Excluir.Enabled := True;
   Spb_Editar.Enabled := True;
 
-  X := 0;
+  X1 := 0;
   Dm.FDQ_Cidade.Close;
   Dm.FDQ_Cidade.Open();
-  Y := Dm.FDQ_CidadeMAX.AsInteger;
+  Y1 := Dm.FDQ_CidadeMAX.AsInteger;
   Q_Cidade.Close;
   Q_Cidade.Open();
   Q_Cidade.First;
-  while X < Y do
+  while X1 < Y1 do
   begin
-    CB_IDCidade.Items.Add(IntToStr((Q_CidadeID_CIDADE.AsInteger)) + '   ' +
-      Q_CidadeNOME_CIDADE.AsString);
+    CB_IDCidade.Items.Add(Q_CidadeNOME_CIDADE.AsString);
     Q_Cidade.Next;
-    X := X + 1;
+    X1 := X1 + 1;
   end;
+
+  X2 := Q_ClienteID_CIDADE.AsString;
+  Q_Cidade.First;
+  repeat
+    Y2 := Q_CidadeID_CIDADE.AsString;
+    CB_IDCidade.Text := Q_CidadeNOME_CIDADE.AsString;
+    Q_Cidade.Next;
+  until X2 = Y2;
 
   DesativaCampos;
 
@@ -190,6 +242,36 @@ begin
   Q_Cliente.Close;
   Q_Cliente.ParamByName('NomeCliente').AsString := Edt_Consulta.Text + '%';
   Q_Cliente.Open();
+end;
+
+procedure TF_Cliente.Edt_DataNascChange(Sender: TObject);
+var
+  Y1: integer;
+begin
+  inherited;
+  Y1 := Length(Edt_DataNasc.Text);
+
+  if Y1 = 4 then
+  begin
+    Edt_DataNasc.Text := Edt_DataNasc.Text + '-';
+    Edt_DataNasc.SetFocus;
+    Edt_DataNasc.SelStart := Length(Edt_DataNasc.Text);
+  end;
+
+  if Y1 = 7 then
+  begin
+    Edt_DataNasc.Text := Edt_DataNasc.Text + '-';
+    Edt_DataNasc.SetFocus;
+    Edt_DataNasc.SelStart := Length(Edt_DataNasc.Text);
+  end;
+
+end;
+
+procedure TF_Cliente.Edt_DataNascClick(Sender: TObject);
+begin
+  inherited;
+  if Edt_DataNasc.Text = 'aaaa-mm-dd' then
+    Edt_DataNasc.Text := EmptyStr;
 end;
 
 procedure TF_Cliente.LiberaCampos;
@@ -229,6 +311,7 @@ begin
   Edt_DataNasc.Text := EmptyStr;
   Edt_Status.Text := EmptyStr;
   CB_IDCidade.Text := EmptyStr;
+  CB_IDCidade.Items.Clear;
 end;
 
 end.

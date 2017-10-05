@@ -115,6 +115,8 @@ inherited F_Cidade: TF_Cidade
       end
     end
     inherited TabSheet2: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 627
       ExplicitHeight = 323
       inherited GroupBox1: TGroupBox
@@ -184,7 +186,9 @@ inherited F_Cidade: TF_Cidade
   object Q_Cidade: TFDQuery
     Connection = DM.FDConnection1
     SQL.Strings = (
-      'select * from Cidade where Nome_Cidade like :NomeCidade;')
+      
+        'select * from Cidade where Nome_Cidade like :NomeCidade order by' +
+        ' ID_Cidade;')
     Left = 583
     Top = 300
     ParamData = <
