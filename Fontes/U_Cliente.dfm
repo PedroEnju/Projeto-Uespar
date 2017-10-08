@@ -93,19 +93,6 @@ inherited F_Cliente: TF_Cliente
         Height = 13
         Caption = 'Cidade.:'
       end
-      object L_Debug: TLabel
-        Left = 336
-        Top = 230
-        Width = 46
-        Height = 19
-        Caption = 'Debug'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clRed
-        Font.Height = -16
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        ParentFont = False
-      end
       object Edt_IDCliente: TEdit
         Left = 24
         Top = 32
@@ -156,7 +143,7 @@ inherited F_Cliente: TF_Cliente
       end
       object Edt_DataNasc: TEdit
         Left = 336
-        Top = 112
+        Top = 118
         Width = 121
         Height = 21
         Enabled = False

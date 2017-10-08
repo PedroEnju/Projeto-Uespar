@@ -47,7 +47,6 @@ type
     Q_ClienteDTNASCIMENTO: TDateField;
     Q_ClienteSTATUS: TStringField;
     Q_ClienteID_CIDADE: TIntegerField;
-    L_Debug: TLabel;
     procedure Spb_NovoClick(Sender: TObject);
     procedure Spb_SalvarClick(Sender: TObject);
     procedure Edt_ConsultaChange(Sender: TObject);
@@ -197,6 +196,7 @@ procedure TF_Cliente.DBG_ConsultaDblClick(Sender: TObject);
 var
   X1, Y1: integer;
   X2, Y2: string;
+  D, M, A: string;
 begin
   inherited;
   Edt_IDCliente.Text := Q_ClienteID_CLIENTE.AsString;
@@ -209,6 +209,11 @@ begin
   PC_Principal.TabIndex := 0;
   Spb_Excluir.Enabled := True;
   Spb_Editar.Enabled := True;
+
+  D := Copy(Q_ClienteDTNASCIMENTO.AsString, 1, 2);
+  M := Copy(Q_ClienteDTNASCIMENTO.AsString, 4, 2);
+  A := Copy(Q_ClienteDTNASCIMENTO.AsString, 7, 4);
+  Edt_DataNasc.Text := (A + '-' + M + '-' + D);
 
   X1 := 0;
   Dm.FDQ_Cidade.Close;
@@ -250,7 +255,6 @@ var
 begin
   inherited;
   Y1 := Length(Edt_DataNasc.Text);
-
   if Y1 = 4 then
   begin
     Edt_DataNasc.Text := Edt_DataNasc.Text + '-';
