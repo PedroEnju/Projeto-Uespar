@@ -9,7 +9,9 @@ uses
   Vcl.ExtCtrls, Vcl.StdCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
-  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  System.Rtti, System.Bindings.Outputs, Vcl.Bind.Editors, Data.Bind.EngExt,
+  Vcl.Bind.DBEngExt, Data.Bind.Components, Data.Bind.DBScope;
 
 type
   TF_Cidade = class(TF_Modelo)
@@ -20,7 +22,7 @@ type
     Edt_NomeCidade: TEdit;
     Edt_CEP: TEdit;
     Label4: TLabel;
-    CB_IDEstado: TComboBox;
+    CB_IDEstadoaa: TComboBox;
     Edt_Consulta: TEdit;
     DBG_Consulta: TDBGrid;
     DS: TDataSource;
@@ -32,6 +34,10 @@ type
     Q_Estado: TFDQuery;
     Q_EstadoNOME_ESTADO: TStringField;
     Q_EstadoID_ESTADO: TIntegerField;
+    CB_IDEstado: TComboBox;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    LinkListControlToField1: TLinkListControlToField;
     procedure Spb_NovoClick(Sender: TObject);
     procedure Edt_ConsultaChange(Sender: TObject);
     procedure Spb_SalvarClick(Sender: TObject);
@@ -39,6 +45,7 @@ type
     procedure DBG_ConsultaDblClick(Sender: TObject);
     procedure Spb_CancelarClick(Sender: TObject);
     procedure Spb_ExcluirClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     procedure LiberaCampos;
     procedure LimpaCampos;
@@ -82,6 +89,8 @@ begin
   SQL := 'delete from Cidade where id_Cidade =' + Edt_IDCidade.Text;
   DM.FDConnection1.ExecSQL(SQL);
   DM.FDConnection1.CommitRetaining;
+  DesativaCampos;
+  LimpaCampos;
 end;
 
 procedure TF_Cidade.Spb_NovoClick(Sender: TObject);
@@ -94,20 +103,25 @@ begin
   LiberaCampos;
   PC_Principal.TabIndex := 0;
 
-  X := 0;
-  DM.FDQ_Estado.Close;
-  DM.FDQ_Estado.Open();
-  Y := DM.FDQ_EstadoMAX.AsInteger;
-  Q_Estado.Close;
-  Q_Estado.Open();
-  Q_Estado.First;
-  CB_IDEstado.Text := Q_EstadoNOME_ESTADO.AsString;
-  while X < Y do
-  begin
+  { X := 0;
+    DM.FDQ_Estado.Close;
+    DM.FDQ_Estado.Open();
+    Y := DM.FDQ_EstadoMAX.AsInteger;
+    Q_Estado.Close;
+    Q_Estado.Open();
+    Q_Estado.First;
+    CB_IDEstado.Text := Q_EstadoNOME_ESTADO.AsString;
+    while X < Y do
+    begin
     CB_IDEstado.Items.Add(Q_EstadoNOME_ESTADO.AsString);
     Q_Estado.Next;
     X := X + 1;
-  end;
+    end; }
+
+  Q_Estado.Close;
+  Q_Estado.Open();
+  CB_IDEstado.Text := Q_EstadoNOME_ESTADO.AsString;
+
   DM.FDQ_Cidade.Close;
   DM.FDQ_Cidade.Open();
   Max := DM.FDQ_CidadeMAX.AsInteger + 1;
@@ -126,18 +140,19 @@ begin
 
   if Crud = 'Inserir' then
   begin
-    Y := CB_IDEstado.Text;
-    if X <> Y then
-    begin
+    { Y := CB_IDEstado.Text;
+      if X <> Y then
+      begin
       Q_Estado.Close;
       Q_Estado.Open();
       Q_Estado.First;
       repeat
-        X := Q_EstadoNOME_ESTADO.AsString;
-        Num := Q_EstadoID_ESTADO.AsInteger;
-        Q_Estado.Next;
+      X := Q_EstadoNOME_ESTADO.AsString;
+      Num := Q_EstadoID_ESTADO.AsInteger;
+      Q_Estado.Next;
       until X = Y;
-    end;
+      end; }
+    Num := Q_EstadoID_ESTADO.AsInteger;
     SQL := 'insert into Cidade values(' + Edt_IDCidade.Text + ',' + //
       QuotedStr(Edt_NomeCidade.Text) + ',' + QuotedStr(Edt_CEP.Text) + ',' +
       IntToStr(Num) + ');';
@@ -162,9 +177,15 @@ begin
   Edt_IDCidade.Text := Q_CidadeID_CIDADE.AsString;
   Edt_NomeCidade.Text := Q_CidadeNOME_CIDADE.AsString;
   Edt_CEP.Text := Q_CidadeCEP_CIDADE.AsString;
-  CB_IDEstado.Text := Q_CidadeID_ESTADO.AsString;
+
+
+  IDESTADO.ParamByName('IDESTADO').AsString := Q_CidadeID_ESTADO.AsString;
+  CB_IDEstado.Text := IDESTADONOME_ESTADO.AsString;
+
+
   PC_Principal.TabIndex := 0;
   Spb_Excluir.Enabled := True;
+  Spb_Editar.Enabled := True;
 end;
 
 procedure TF_Cidade.Edt_ConsultaChange(Sender: TObject);
@@ -173,6 +194,13 @@ begin
   Q_Cidade.Close;
   Q_Cidade.ParamByName('NomeCidade').AsString := Edt_Consulta.Text + '%';
   Q_Cidade.Open();
+end;
+
+procedure TF_Cidade.FormShow(Sender: TObject);
+begin
+  inherited;
+  Q_Estado.Close;
+  Q_Estado.Open();
 end;
 
 procedure TF_Cidade.LiberaCampos;

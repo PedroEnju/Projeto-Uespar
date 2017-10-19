@@ -86,7 +86,7 @@ begin
   Spb_Salvar.Enabled := False;
   Spb_Cancelar.Enabled := False;
   Spb_Excluir.Enabled := True;
-  Spb_Editar.Enabled := True;
+  Spb_Editar.Enabled := False;
   StatusBar1.Panels[0].Text := 'Registro Salvo Com Sucesso';
 end;
 

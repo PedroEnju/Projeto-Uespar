@@ -64,6 +64,7 @@ type
   public
     { Public declarations }
     Crud: string;
+    DTN: integer;
   end;
 
 var
@@ -89,9 +90,15 @@ begin
 end;
 
 procedure TF_Cliente.Spb_ExcluirClick(Sender: TObject);
+var
+  SQL: string;
 begin
   inherited;
+  SQL := 'delete from Cliente where id_Cliente =' + Edt_IDCliente.Text;
+  DM.FDConnection1.ExecSQL(SQL);
+  DM.FDConnection1.CommitRetaining;
   DesativaCampos;
+  LimpaCampos;
 end;
 
 procedure TF_Cliente.Spb_NovoClick(Sender: TObject);
@@ -105,9 +112,9 @@ begin
   PC_Principal.TabIndex := 0;
 
   X1 := 0;
-  Dm.FDQ_Cidade.Close;
-  Dm.FDQ_Cidade.Open();
-  Y1 := Dm.FDQ_CidadeMAX.AsInteger;
+  DM.FDQ_Cidade.Close;
+  DM.FDQ_Cidade.Open();
+  Y1 := DM.FDQ_CidadeMAX.AsInteger;
   Q_Cidade.Close;
   Q_Cidade.Open();
   Q_Cidade.First;
@@ -118,9 +125,9 @@ begin
     Q_Cidade.Next;
     X1 := X1 + 1;
   end;
-  Dm.FDQ_Cliente.Close;
-  Dm.FDQ_Cliente.Open();
-  Max := Dm.FDQ_ClienteMAX.AsInteger + 1;
+  DM.FDQ_Cliente.Close;
+  DM.FDQ_Cliente.Open();
+  Max := DM.FDQ_ClienteMAX.AsInteger + 1;
   Edt_IDCliente.Enabled := False;
   Edt_IDCliente.Text := IntToStr(Max);
   Edt_NomeCliente.SetFocus;
@@ -186,8 +193,8 @@ begin
       ', ID_CIDADE =' + IntToStr(Num) + //
       'where ID_Cliente  =' + Edt_IDCliente.Text;
   end;
-  Dm.FDConnection1.ExecSQL(SQL);
-  Dm.FDConnection1.CommitRetaining;
+  DM.FDConnection1.ExecSQL(SQL);
+  DM.FDConnection1.CommitRetaining;
   LimpaCampos;
   DesativaCampos;
 end;
@@ -216,9 +223,9 @@ begin
   Edt_DataNasc.Text := (A + '-' + M + '-' + D);
 
   X1 := 0;
-  Dm.FDQ_Cidade.Close;
-  Dm.FDQ_Cidade.Open();
-  Y1 := Dm.FDQ_CidadeMAX.AsInteger;
+  DM.FDQ_Cidade.Close;
+  DM.FDQ_Cidade.Open();
+  Y1 := DM.FDQ_CidadeMAX.AsInteger;
   Q_Cidade.Close;
   Q_Cidade.Open();
   Q_Cidade.First;
@@ -254,19 +261,22 @@ var
   Y1: integer;
 begin
   inherited;
+
   Y1 := Length(Edt_DataNasc.Text);
-  if Y1 = 4 then
+  if (Y1 = 4) and (DTN = 0) then
   begin
     Edt_DataNasc.Text := Edt_DataNasc.Text + '-';
     Edt_DataNasc.SetFocus;
     Edt_DataNasc.SelStart := Length(Edt_DataNasc.Text);
+    DTN := DTN + 1;
   end;
 
-  if Y1 = 7 then
+  if (Y1 = 7) and (DTN = 1) then
   begin
     Edt_DataNasc.Text := Edt_DataNasc.Text + '-';
     Edt_DataNasc.SetFocus;
     Edt_DataNasc.SelStart := Length(Edt_DataNasc.Text);
+    DTN := DTN + 1;
   end;
 
 end;

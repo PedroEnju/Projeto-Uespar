@@ -22,12 +22,9 @@ inherited F_Cliente: TF_Cliente
     Width = 770
     Height = 358
     ActivePage = TabSheet1
-    ExplicitTop = 41
     ExplicitWidth = 770
     ExplicitHeight = 358
     inherited TabSheet1: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 762
       ExplicitHeight = 330
       object Label1: TLabel
@@ -115,6 +112,7 @@ inherited F_Cliente: TF_Cliente
         Width = 137
         Height = 21
         Enabled = False
+        MaxLength = 11
         TabOrder = 2
       end
       object Edt_RG: TEdit
@@ -123,6 +121,7 @@ inherited F_Cliente: TF_Cliente
         Width = 145
         Height = 21
         Enabled = False
+        MaxLength = 13
         TabOrder = 3
       end
       object Edt_Email: TEdit
@@ -143,7 +142,7 @@ inherited F_Cliente: TF_Cliente
       end
       object Edt_DataNasc: TEdit
         Left = 336
-        Top = 118
+        Top = 112
         Width = 121
         Height = 21
         Enabled = False
@@ -172,8 +171,6 @@ inherited F_Cliente: TF_Cliente
       end
     end
     inherited TabSheet2: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 762
       ExplicitHeight = 330
       inherited GroupBox1: TGroupBox

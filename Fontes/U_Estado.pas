@@ -37,6 +37,7 @@ type
   private
     procedure LimpaCampos;
     procedure HabilitaCampos;
+    procedure DesativaCampos;
     { Private declarations }
   public
     { Public declarations }
@@ -73,9 +74,11 @@ var
   SQL: string;
 begin
   inherited;
-  SQL := 'delete from estado where id_Estado =' + Edt_IDEstado.Text;
+  SQL := 'delete from Estado where id_Estado =' + Edt_IDEstado.Text;
   DM.FDConnection1.ExecSQL(SQL);
   DM.FDConnection1.CommitRetaining;
+  DesativaCampos;
+  LimpaCampos;
 end;
 
 procedure TF_Estado.LimpaCampos;
@@ -97,6 +100,7 @@ begin
   Edt_Sigla.Text := Q_EstadoSIGLA_ESTADO.AsString;
   PC_Principal.TabIndex := 0;
   Spb_Excluir.Enabled := True;
+  Spb_Editar.Enabled := True;
 end;
 
 procedure TF_Estado.Edt_PesquisarChange(Sender: TObject);
@@ -112,6 +116,13 @@ begin
   Edt_IDEstado.Enabled := True;
   Edt_NomeEstado.Enabled := True;
   Edt_Sigla.Enabled := True;
+end;
+
+procedure TF_Estado.DesativaCampos;
+begin
+  Edt_IDEstado.Enabled := False;
+  Edt_NomeEstado.Enabled := False;
+  Edt_Sigla.Enabled := False;
 end;
 
 procedure TF_Estado.Spb_NovoClick(Sender: TObject);

@@ -4,6 +4,7 @@ inherited F_Cidade: TF_Cidade
     '                     Cadastro de Cidade'
   ClientHeight = 411
   ClientWidth = 635
+  OnShow = FormShow
   ExplicitWidth = 651
   ExplicitHeight = 450
   PixelsPerInch = 96
@@ -25,8 +26,6 @@ inherited F_Cidade: TF_Cidade
     ExplicitWidth = 635
     ExplicitHeight = 351
     inherited TabSheet1: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 627
       ExplicitHeight = 323
       object Label1: TLabel
@@ -105,7 +104,7 @@ inherited F_Cidade: TF_Cidade
         Enabled = False
         TabOrder = 2
       end
-      object CB_IDEstado: TComboBox
+      object CB_IDEstadoaa: TComboBox
         Left = 201
         Top = 113
         Width = 145
@@ -113,10 +112,15 @@ inherited F_Cidade: TF_Cidade
         Enabled = False
         TabOrder = 3
       end
+      object CB_IDEstado: TComboBox
+        Left = 201
+        Top = 140
+        Width = 145
+        Height = 21
+        TabOrder = 4
+      end
     end
     inherited TabSheet2: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 627
       ExplicitHeight = 323
       inherited GroupBox1: TGroupBox
@@ -239,6 +243,27 @@ inherited F_Cidade: TF_Cidade
       Origin = 'ID_ESTADO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
+    end
+  end
+  object BindSourceDB1: TBindSourceDB
+    DataSet = Q_Estado
+    ScopeMappings = <>
+    Left = 440
+    Top = 208
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
+    object LinkListControlToField1: TLinkListControlToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB1
+      FieldName = 'NOME_ESTADO'
+      Control = CB_IDEstado
+      FillExpressions = <>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
     end
   end
 end
